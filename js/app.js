@@ -43,6 +43,8 @@ $(function() {
 		events: {
 			'keyup textarea, input': 'updateContent',
 			'click button': 'dummyData',
+			'click a.btn.bold': 'makeBold',
+			'click a.btn.italic': 'makeItalic',
 		},
 
 		initialize: function() {
@@ -70,6 +72,20 @@ $(function() {
 		dummyData: function() {
 			$('textarea').val($('#dummy-data').html().trim()).trigger('keyup');
 			$('input').val('Sample Title').trigger('keyup');
+		},
+
+		makeBold: function(e) {
+			e.preventDefault();
+			var $textarea = $('textarea');
+			wrapText($textarea.get(0), '**');
+			$textarea.trigger('keyup');
+		},
+
+		makeItalic: function(e) {
+			e.preventDefault();
+			var $textarea = $('textarea');
+			wrapText($textarea.get(0), '_');
+			$textarea.trigger('keyup');
 		}
 	});
 
@@ -95,6 +111,16 @@ $(function() {
 
 	app.router = new app.Router();
 	Backbone.history.start({ pushState: true });
+
+	function wrapText(textarea, wrap){
+		var len = textarea.value.length;
+		var start = textarea.selectionStart;
+		var end = textarea.selectionEnd;
+		var sel = textarea.value.substring(start, end);
+		var replace = wrap + sel + wrap;
+		textarea.value = textarea.value.substring(0,start) + replace +
+		textarea.value.substring(end,len);
+	}
 
 });
 
