@@ -70,7 +70,7 @@ $(function() {
 			this.model.set({
 				content: $('#dummy-data').html()
 			});
-			$('textarea').val($('#dummy-data').html()).trigger('keyup');
+			$('textarea').val($('#dummy-data').html().trim()).trigger('keyup');
 		}
 	});
 
