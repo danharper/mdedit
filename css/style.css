@@ -2,7 +2,29 @@ body {
 	padding: 10px 0;
 }
 
+input, textarea {
+	display: block;
+	width: 90%;
+}
+
+input {
+	margin-top: 15px;
+}
+
 textarea {
 	height: 500px;
-	margin-top: 15px;
+	margin-top: 5px;
+}
+
+article {
+	border: 2px solid whitesmoke;
+	border-top: none;
+	padding: 0 10px;
+	margin: 0 -10px;
+}
+
+article header {
+	background-color: whitesmoke;
+	margin: 0 -10px 5px;
+	padding: 5px 10px;
 }

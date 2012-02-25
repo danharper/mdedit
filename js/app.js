@@ -41,7 +41,7 @@ $(function() {
 
 	app.Views.Editor = Backbone.View.extend({
 		events: {
-			'keyup textarea': 'updateContent',
+			'keyup textarea, input': 'updateContent',
 			'click button': 'dummyData',
 		},
 
@@ -62,19 +62,19 @@ $(function() {
 
 		updateContent: function() {
 			this.model.set({
-				content: markdown.toHTML($('textarea').val())
+				title: $('input').val(),
+				content: $('textarea').val()
 			});
 		},
 
 		dummyData: function() {
-			this.model.set({
-				content: $('#dummy-data').html()
-			});
 			$('textarea').val($('#dummy-data').html().trim()).trigger('keyup');
+			$('input').val('Sample Title').trigger('keyup');
 		}
 	});
 
 	app.Views.Viewer = Backbone.View.extend({
+		tagName: 'article',
 		id: 'viewer',
 
 		initialize: function() {
@@ -86,13 +86,18 @@ $(function() {
 		},
 
 		render: function() {
-			$(this.el).html(this.template({
-				content: this.model.get('content')
-			}));
+			$(this.el).html(this.template(
+				this.model.toJSON()
+			));
 			return this;
 		}
 	});
 
 	app.router = new app.Router();
 	Backbone.history.start({ pushState: true });
+
+});
+
+Handlebars.registerHelper('markdown', function() {
+	return new Handlebars.SafeString( markdown.toHTML(this.content) );
 });

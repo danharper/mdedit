@@ -16,11 +16,11 @@
 <body class="container-fluid">
 
 	<header class="row-fluid">
-		<div class="span6">
+		<div class="span5">
 			<h1>mdedit</h1>
 		</div>
 
-		<div class="span6">
+		<div class="span7">
 			<p>
 				The goal is to create a localStorage-backed Markdown text editor like <a href="http://mouapp.com/">Mou.app</a>.
 				<br>
@@ -30,21 +30,23 @@
 	</header>
 
 	<div class="row-fluid">
-		<div class="span6" id="editor-wrap"> </div>
-		<div class="span6" id="viewer-wrap">hey!</div>
+		<div class="span5" id="editor-wrap"> </div>
+		<div class="span7" id="viewer-wrap">hey!</div>
 	</div>
 
 	<script type="text/x-handlebars-template" id="editor-template">
 		<button class="btn btn-info">Fill In Dummy Data</button>
-		<textarea class="span7" autofocus>{{content}}</textarea>
+		<input placeholder="Title" autofocus>
+		<textarea placeholder="Content">{{content}}</textarea>
 	</script>
 
 	<script type="text/x-handlebars-template" id="viewer-template">
-		<div> {{{content}}} </div>
+		<header><h1> {{title}} </h1></header>
+		{{markdown content}}
 	</script>
 
 	<script type="text/x-handlebars-template" id="dummy-data">
-# Let's get started!
+## Let's get started!
 
 Hey! __bold__ and _italic_ and `code` [and links](http://danharper.me) and images:
 
