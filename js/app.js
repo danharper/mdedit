@@ -77,6 +77,7 @@ $(function() {
 				title: $('input').val(),
 				content: $('textarea').val()
 			});
+			this.showMessage('changed');
 		},
 
 		dummyData: function() {
@@ -87,6 +88,7 @@ $(function() {
 		save: function(e) {
 			e.preventDefault();
 			this.model.save();
+			this.showMessage('alert-success');
 		},
 
 		delete: function(e) {
@@ -106,6 +108,19 @@ $(function() {
 			var $textarea = $('textarea');
 			wrapText($textarea.get(0), '_');
 			$textarea.trigger('keyup');
+		},
+
+		showMessage: function(type) {
+			var messages = {
+				'changed': 'Model is dirty.',
+				'alert-success': 'Model saved.'
+			};
+			var $alert = this.$('.alert');
+			if ( ! $alert.hasClass(type)) {
+				console.log('a', $alert);
+				$alert.removeClass().addClass('alert '+type);
+				$alert.empty().append(messages[type]);
+			}
 		}
 	});
 

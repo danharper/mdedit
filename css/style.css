@@ -28,3 +28,10 @@ article header {
 	margin: 0 -10px 5px;
 	padding: 5px 10px;
 }
+
+.alert {
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 10px;
+}
