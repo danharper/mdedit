@@ -36,11 +36,32 @@
 		<div class="span7" id="viewer-wrap">hey!</div>
 	</div>
 
+	<script>
+		var Prefetch = {
+			Posts: [
+				{
+					title: 'Post One',
+					content: '_Dude!_ **ha!**'
+				},
+				{
+					title: 'Post Two',
+					content: '**This** is my second post.'
+				},
+				{
+					title: 'Another',
+					content: 'And `this` is number three!'
+				}
+			]
+		};
+	</script>
+
 	<script type="text/x-handlebars-template" id="dropdown-template">
-		{{debug collection}}
 		<select>
-				<option>hey</option>
+			{{#each collection}}
+				<option>{{title}}</option>
+			{{/each}}
 		</select>
+		<button class="btn btn-primary">Add New</button>
 	</script>
 
 	<script type="text/x-handlebars-template" id="editor-template">

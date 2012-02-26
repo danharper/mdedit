@@ -17,6 +17,8 @@ $(function() {
 		},
 
 		home: function() {
+			app.collections.posts.add(Prefetch.Posts);
+
 			this.views = {}
 
 			this.views.dropdown = new app.Views.Dropdown({
@@ -41,13 +43,14 @@ $(function() {
 
 	app.Models.Post = Backbone.Model.extend({
 		defaults: {
-			content: ""
+			title: '',
+			content: ''
 		}
 	});
 
 	app.models.post = new app.Models.Post();
 
-	app.Collections.Posts = Backbone.Model.extend({
+	app.Collections.Posts = Backbone.Collection.extend({
 		model: app.Models.Post
 	});
 
