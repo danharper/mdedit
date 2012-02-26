@@ -19,12 +19,20 @@ $(function() {
 		home: function() {
 			this.views = {}
 
+			this.views.dropdown = new app.Views.Dropdown({
+				collection: app.collections.posts,
+				model: app.models.post
+			});
+			$('#dropdown-wrap').empty().append(this.views.dropdown.render().el);
+
 			this.views.editor = new app.Views.Editor({
+				collection: app.collections.posts,
 				model: app.models.post
 			});
 			$('#editor-wrap').empty().append(this.views.editor.render().el);
 
 			this.views.viewer = new app.Views.Viewer({
+				collection: app.collections.posts,
 				model: app.models.post
 			});
 			$('#viewer-wrap').empty().append(this.views.viewer.render().el);
@@ -38,6 +46,12 @@ $(function() {
 	});
 
 	app.models.post = new app.Models.Post();
+
+	app.Collections.Posts = Backbone.Model.extend({
+		model: app.Models.Post
+	});
+
+	app.collections.posts = new app.Collections.Posts();
 
 	app.Views.Editor = Backbone.View.extend({
 		events: {
@@ -109,6 +123,23 @@ $(function() {
 		}
 	});
 
+	app.Views.Dropdown = Backbone.View.extend({
+		initialize: function() {
+			var templateSrc;
+			_.bindAll(this, 'render');
+			this.collection.bind('change', this.render);
+			templateSrc = $('#dropdown-template').html();
+			this.template = Handlebars.compile(templateSrc);
+		},
+
+		render: function() {
+			$(this.el).html(this.template({
+				collection: this.collection.toJSON()
+			}));
+			return this;
+		}
+	});
+
 	app.router = new app.Router();
 	Backbone.history.start({ pushState: true });
 
@@ -120,6 +151,8 @@ $(function() {
 		var replace = wrap + sel + wrap;
 		textarea.value = textarea.value.substring(0,start) + replace +
 		textarea.value.substring(end,len);
+		textarea.selectionStart = start + wrap.length;
+		textarea.selectionEnd = end + wrap.length;
 	}
 
 });

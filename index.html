@@ -29,10 +29,19 @@
 		</div>
 	</header>
 
+	<nav class="row-fluid" id="dropdown-wrap"> </nav>
+
 	<div class="row-fluid">
 		<div class="span5" id="editor-wrap"> </div>
 		<div class="span7" id="viewer-wrap">hey!</div>
 	</div>
+
+	<script type="text/x-handlebars-template" id="dropdown-template">
+		{{debug collection}}
+		<select>
+				<option>hey</option>
+		</select>
+	</script>
 
 	<script type="text/x-handlebars-template" id="editor-template">
 		<button class="btn btn-info">Fill In Dummy Data</button>

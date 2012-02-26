@@ -89,6 +89,10 @@ Handlebars.registerHelper('with', function(context, options) {
 Handlebars.registerHelper('log', function(context) {
   Handlebars.log(context);
 });
+
+Handlebars.registerHelper('debug', function(context) {
+  console.log(context);
+});
 ;
 // lib/handlebars/compiler/parser.js
 /* Jison generated parser */
