@@ -8,6 +8,7 @@
 	<script src="js/jquery.js"></script>
 	<script src="js/underscore.js"></script>
 	<script src="js/backbone.js"></script>
+	<script src="js/backbone.localstorage.js"></script>
 	<script src="js/handlebars.js"></script>
 	<script src="js/markdown.js"></script>
 	<script src="js/app.js"></script>
@@ -33,7 +34,10 @@
 
 	<div class="row-fluid">
 		<div class="span5" id="editor-wrap"> </div>
-		<div class="span7" id="viewer-wrap">hey!</div>
+		<div class="span7" id="viewer-wrap">
+			<h2>Welcome to mdedit</h2>
+			<p>Either select an existing post from the dropdown above or start a new post by hitting 'Add New'.</p>
+		</div>
 	</div>
 
 	<script>
@@ -62,13 +66,16 @@
 		<select>
 			<option value="new"> </option>
 			{{#each collection}}
-				<option value="{{id}}">{{title}}</option>
+				{{debug this}}
+				<option value="{{id}}">{{title}} {{this.cid}}</option>
 			{{/each}}
 		</select>
 		<button class="btn btn-primary">Add New</button>
 	</script>
 
 	<script type="text/x-handlebars-template" id="editor-template">
+		<a href="#" class="btn btn-success save">Save</a>
+		<!--<a href="#" class="btn btn-danger delete">Delete</a>-->
 		<button class="btn btn-info">Fill In Dummy Data</button>
 		<a href="#" class="btn bold"><strong>B</strong></a>
 		<a href="#" class="btn italic"><em>I</em></a>

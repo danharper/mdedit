@@ -17,7 +17,8 @@ $(function() {
 		},
 
 		home: function() {
-			app.collections.posts.add(Prefetch.Posts);
+			// app.collections.posts.add(Prefetch.Posts);
+			app.collections.posts.fetch();
 
 			this.views = {}
 
@@ -37,9 +38,10 @@ $(function() {
 		}
 	});
 
-	app.models.post = new app.Models.Post();
+	// app.models.post = new app.Models.Post();
 
 	app.Collections.Posts = Backbone.Collection.extend({
+		localStorage: new Store('posts'),
 		model: app.Models.Post
 	});
 
@@ -49,6 +51,8 @@ $(function() {
 		events: {
 			'keyup textarea, input': 'updateContent',
 			'click button': 'dummyData',
+			'click a.btn.save': 'save',
+			'click a.btn.delete': 'delete',
 			'click a.btn.bold': 'makeBold',
 			'click a.btn.italic': 'makeItalic',
 		},
@@ -56,7 +60,7 @@ $(function() {
 		initialize: function() {
 			var templateSrc;
 			_.bindAll(this, 'render');
-			// this.model.bind('change', this.render);
+			this.model.bind('destroy', this.render);
 			templateSrc = $('#editor-template').html();
 			this.template = Handlebars.compile(templateSrc);
 		},
@@ -78,6 +82,16 @@ $(function() {
 		dummyData: function() {
 			$('textarea').val($('#dummy-data').html().trim()).trigger('keyup');
 			$('input').val('Sample Title').trigger('keyup');
+		},
+
+		save: function(e) {
+			e.preventDefault();
+			this.model.save();
+		},
+
+		delete: function(e) {
+			e.preventDefault();
+			this.model.destroy();
 		},
 
 		makeBold: function(e) {
@@ -102,7 +116,7 @@ $(function() {
 		initialize: function() {
 			var templateSrc;
 			_.bindAll(this, 'render');
-			this.model.bind('change', this.render);
+			this.model.bind('all', this.render);
 			templateSrc = $('#viewer-template').html();
 			this.template = Handlebars.compile(templateSrc);
 		},
@@ -124,7 +138,7 @@ $(function() {
 		initialize: function() {
 			var templateSrc;
 			_.bindAll(this, 'render');
-			this.collection.bind('change', this.render);
+			this.collection.bind('all', this.render);
 			templateSrc = $('#dropdown-template').html();
 			this.template = Handlebars.compile(templateSrc);
 		},
@@ -155,16 +169,19 @@ $(function() {
 		},
 
 		newPost: function() {
-			var views = {};
+			var post = new app.Models.Post()
+			,	views = {}
+			;
+			app.collections.posts.add(post);
 			views.editor = new app.Views.Editor({
 				collection: app.collections.posts,
-				model: app.models.post
+				model: post
 			});
 			$('#editor-wrap').empty().append(views.editor.render().el);
 
 			views.viewer = new app.Views.Viewer({
 				collection: app.collections.posts,
-				model: app.models.post
+				model: post
 			});
 			$('#viewer-wrap').empty().append(views.viewer.render().el);
 		}
