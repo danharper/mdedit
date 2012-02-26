@@ -40,14 +40,17 @@
 		var Prefetch = {
 			Posts: [
 				{
+					id: 1,
 					title: 'Post One',
 					content: '_Dude!_ **ha!**'
 				},
 				{
+					id: 2,
 					title: 'Post Two',
 					content: '**This** is my second post.'
 				},
 				{
+					id: 3,
 					title: 'Another',
 					content: 'And `this` is number three!'
 				}
@@ -57,8 +60,9 @@
 
 	<script type="text/x-handlebars-template" id="dropdown-template">
 		<select>
+			<option value="new"> </option>
 			{{#each collection}}
-				<option>{{title}}</option>
+				<option value="{{id}}">{{title}}</option>
 			{{/each}}
 		</select>
 		<button class="btn btn-primary">Add New</button>
@@ -68,7 +72,7 @@
 		<button class="btn btn-info">Fill In Dummy Data</button>
 		<a href="#" class="btn bold"><strong>B</strong></a>
 		<a href="#" class="btn italic"><em>I</em></a>
-		<input placeholder="Title" autofocus>
+		<input placeholder="Title" value="{{title}}" autofocus>
 		<textarea placeholder="Content">{{content}}</textarea>
 	</script>
 

@@ -27,17 +27,6 @@ $(function() {
 			});
 			$('#dropdown-wrap').empty().append(this.views.dropdown.render().el);
 
-			this.views.editor = new app.Views.Editor({
-				collection: app.collections.posts,
-				model: app.models.post
-			});
-			$('#editor-wrap').empty().append(this.views.editor.render().el);
-
-			this.views.viewer = new app.Views.Viewer({
-				collection: app.collections.posts,
-				model: app.models.post
-			});
-			$('#viewer-wrap').empty().append(this.views.viewer.render().el);
 		}
 	});
 
@@ -127,6 +116,11 @@ $(function() {
 	});
 
 	app.Views.Dropdown = Backbone.View.extend({
+		events: {
+			'change select': 'editPost',
+			'click button': 'newPost'
+		},
+
 		initialize: function() {
 			var templateSrc;
 			_.bindAll(this, 'render');
@@ -140,6 +134,39 @@ $(function() {
 				collection: this.collection.toJSON()
 			}));
 			return this;
+		},
+
+		editPost: function(e) {
+			var id, views = {};
+			id = $(':selected', e.currentTarget).val();
+			if (id === 'new') return this.newPost();
+
+			views.editor = new app.Views.Editor({
+				collection: app.collections.posts,
+				model: app.collections.posts.get(id)
+			});
+			$('#editor-wrap').empty().append(views.editor.render().el);
+
+			views.viewer = new app.Views.Viewer({
+				collection: app.collections.posts,
+				model: app.collections.posts.get(id)
+			});
+			$('#viewer-wrap').empty().append(views.viewer.render().el);
+		},
+
+		newPost: function() {
+			var views = {};
+			views.editor = new app.Views.Editor({
+				collection: app.collections.posts,
+				model: app.models.post
+			});
+			$('#editor-wrap').empty().append(views.editor.render().el);
+
+			views.viewer = new app.Views.Viewer({
+				collection: app.collections.posts,
+				model: app.models.post
+			});
+			$('#viewer-wrap').empty().append(views.viewer.render().el);
 		}
 	});
 
